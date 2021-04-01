@@ -46,11 +46,13 @@ const changed = (oldState, newState) => {
   return changed
 }
 
-export const connect = (selector) => (Component) => {
+export const connect = (selector,dispatchSelector) => (Component) => {
   return (props) => {
     const {state, setState} = useContext(appContext)
+    const dispatch = (action) => { setState(reducer(state, action)) }
     const [, update] = useState({})
     const data = selector ? selector(state) : {state}
+    const dispatchers = dispatchSelector ? dispatchSelector(dispatch) : dispatch
     // 初次挂载 添加订阅 执行 setState(update)
     useEffect(() => {
       const unsubscribe = store.subscribe(() => {
@@ -63,9 +65,6 @@ export const connect = (selector) => (Component) => {
       })
       return unsubscribe
     }, [selector])
-    const dispatch = (action) => {
-      setState(reducer(state, action))
-    }
-    return <Component {...props} {...data} dispatch={dispatch}/>
+    return <Component {...props} {...data} {...dispatchers}/>
   }
 }
