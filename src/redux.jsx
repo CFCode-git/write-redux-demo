@@ -59,3 +59,11 @@ export const connect = (selector,dispatchSelector) => (Component) => {
     return <Component {...props} {...data} {...dispatchers}/>
   }
 }
+
+export const Provider = ({store,children}) => {
+  return (
+    <appContext.Provider value={store}>
+      {children}
+    </appContext.Provider>
+  )
+}

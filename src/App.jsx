@@ -1,6 +1,7 @@
 import React from 'react'
 import {appContext, createStore, connect} from './redux.jsx'
 import {connectToUser} from './connecters/connectToUser'
+import {Provider} from './redux'
 
 const reducer = (state, {type, payload}) => {
   if (type === 'updateUser') {
@@ -23,11 +24,11 @@ const store = createStore(reducer, initState)
 
 export const App = () => {
   return (
-    <appContext.Provider value={store}>
+    <Provider store={store}>
       <大儿子/>
       <二儿子/>
       <幺儿子/>
-    </appContext.Provider>
+    </Provider>
   )
 }
 const 大儿子 = () => {
